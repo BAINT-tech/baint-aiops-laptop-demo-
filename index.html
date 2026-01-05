@@ -3,13 +3,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Baint OS – Laptop AIOPs Demo</title>
+<title>Baint OS – Laptop AIOPs & Student Assist</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
   margin:0;
   font-family: Arial, sans-serif;
-  background:#fff;
+  background:#E5E7EB;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -18,28 +18,28 @@ body {
 .laptop {
   width:950px;
   height:650px;
-  background:#f3f4f6;
-  border-radius:12px;
+  background:#111;
+  border-radius:30px;
   padding:20px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.2);
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);
   display:flex;
   flex-direction:column;
   position:relative;
 }
 .laptop-top-bar {
   height:28px;
-  background:#e5e7eb;
-  border-radius:8px 8px 0 0;
+  background:#222;
+  border-radius:12px 12px 0 0;
   display:flex;
   align-items:center;
   padding:0 10px;
-  color:#111;
+  color:#fff;
   font-size:14px;
 }
 .laptop-screen {
   flex:1;
   background:#fff;
-  border-radius:0 0 12px 12px;
+  border-radius:0 0 20px 20px;
   margin-top:4px;
   position:relative;
   overflow:hidden;
@@ -74,7 +74,7 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
   display:flex;
   flex-wrap:wrap;
   border-top:1px solid #e5e7eb;
-  border-radius:0 0 12px 12px;
+  border-radius:0 0 20px 20px;
   margin-top:auto;
 }
 .key {
@@ -95,12 +95,12 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 <body>
 
 <div class="laptop">
-  <div class="laptop-top-bar">Baint OS – AIOPs Demo</div>
+  <div class="laptop-top-bar">Baint OS – AIOPs / Student Assist</div>
   <div class="laptop-screen">
 
     <!-- LAPTOP BOOT -->
     <div class="screen active" id="boot">
-      <div>
+      <div style="text-align:center;margin-top:50px;">
         <img src="logo.png" alt="Baint OS Logo" style="width:80px;height:80px;margin-bottom:20px;">
         <div id="boot-log"></div>
       </div>
@@ -109,26 +109,33 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
     <!-- HOME -->
     <div class="screen" id="home">
       <h3>Desktop</h3>
-      <p style="font-size:13px;">Human-centric automation, running on-device</p>
+      <p style="font-size:13px;">Select Mode:</p>
+      <div class="toggle">
+        <button id="demoBtn" class="active" onclick="switchMode('aiops')">AIOPs Demo</button>
+        <button id="studentBtn" onclick="switchMode('student')">Student Assist</button>
+      </div>
       <div class="icon-grid">
-        <div class="app" onclick="show('aiops')"><div class="icon"></div>AIOPs</div>
-        <div class="app" onclick="show('browser')"><div class="icon"></div>Browser</div>
-        <div class="app"><div class="icon"></div>WhatsApp</div>
-        <div class="app"><div class="icon"></div>X</div>
-        <div class="app"><div class="icon"></div>Spotify</div>
+        <div class="app" id="openAppBtn" onclick="show(currentMode)"><div class="icon"></div><span id="openLabel">Open AIOPs Demo</span></div>
       </div>
     </div>
 
     <!-- AIOPs -->
     <div class="screen" id="aiops">
-      <h3>Student Assignment Helper</h3>
-      <div class="toggle">
-        <button id="enBtn" class="active" onclick="setLang('en')">English</button>
-        <button id="zhBtn" onclick="setLang('zh')">中文</button>
-      </div>
+      <h3>AIOPs Brain Engine</h3>
       <div class="card">
-        <strong>Assignment Assistant</strong>
-        <p>AI helps students generate guided explanations step-by-step, keeping them in control.</p>
+        <strong>Authorized Task Automation</strong>
+        <p>AI interacts with your apps for authorized tasks.</p>
+        <button onclick="startAI()">Authorize Task</button>
+      </div>
+      <button onclick="show('home')">Back</button>
+    </div>
+
+    <!-- Student Assignment -->
+    <div class="screen" id="student">
+      <h3>Student Assignment Helper</h3>
+      <div class="card">
+        <strong>Assignment Assistance</strong>
+        <p>AI helps students generate guided explanations step-by-step.</p>
         <button onclick="startAI()">Start Assignment</button>
       </div>
       <button onclick="show('home')">Back</button>
@@ -136,7 +143,7 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 
     <!-- MOCK APP -->
     <div class="screen" id="browser">
-      <div class="window-title" id="app-title">Student Assignment Demo</div>
+      <div class="window-title" id="app-title"></div>
       <div class="search-box" id="search-box"></div>
       <div class="result" id="result"></div>
       <div class="education" id="education"></div>
@@ -153,23 +160,33 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 
 <script>
 let lang="en";
-const apps=[
-  { 
-    id:"browser", 
-    title:{en:"Student Assignment Helper", zh:"学生作业助手"}, 
-    search:"Explain photosynthesis for a biology assignment", 
-    result:{en:"Photosynthesis is the process by which plants convert sunlight into energy using carbon dioxide and water.", zh:"光合作用是植物利用二氧化碳和水，将阳光转化为能量的过程。"}, 
+let currentMode="aiops";
+
+const apps={
+  aiops:{
+    title:{en:"AIOPs Demo", zh:"AIOPs 演示"},
+    search:"Automate a task",
+    result:{en:"Task completed by AI.", zh:"任务已由AI完成。"},
     edu:{
-      en:["Student authorized learning assistance","AIOPs analyzed the question","Key concepts identified","Explanation structured step-by-step","Student remains in control","Done"], 
+      en:["Task authorized","AIOPs interacted with app","Task finished","No cloud used"],
+      zh:["任务已授权","AIOPs 操作应用","任务完成","无云端使用"]
+    }
+  },
+  student:{
+    title:{en:"Student Assignment Helper", zh:"学生作业助手"},
+    search:"Explain photosynthesis for a biology assignment",
+    result:{en:"Photosynthesis is the process by which plants convert sunlight into energy using carbon dioxide and water.", zh:"光合作用是植物利用二氧化碳和水，将阳光转化为能量的过程。"},
+    edu:{
+      en:["Student authorized learning assistance","AIOPs analyzed the question","Key concepts identified","Explanation structured step-by-step","Student remains in control","Done"],
       zh:["学生授权学习辅助","AIOPs 分析问题","关键概念已识别","逐步结构化解释","学生保持控制","完成"]
     }
   }
-];
+};
 
 function setLang(l){
   lang=l;
-  document.getElementById("enBtn").classList.toggle("active",l==="en");
-  document.getElementById("zhBtn").classList.toggle("active",l==="zh");
+  document.getElementById("enBtn")?.classList.toggle("active",l==="en");
+  document.getElementById("zhBtn")?.classList.toggle("active",l==="zh");
 }
 
 function show(id){
@@ -177,7 +194,14 @@ function show(id){
   document.getElementById(id).classList.add('active');
 }
 
-// Laptop boot typing
+function switchMode(mode){
+  currentMode=mode;
+  document.getElementById("demoBtn").classList.toggle("active",mode==="aiops");
+  document.getElementById("studentBtn").classList.toggle("active",mode==="student");
+  // Update home Open button label dynamically
+  document.getElementById("openLabel").innerText = "Open " + apps[mode].title[lang];
+}
+
 const bootMessages = [
   "Initializing Baint OS...",
   "Loading AIOPs modules...",
@@ -205,52 +229,36 @@ function nextBootLine(){
 }
 setTimeout(nextBootLine,500);
 
-// AIOPs simulation
+// AIOPs / Student simulation
 function startAI(){
-  const cursor=document.getElementById("ai-cursor");
-  cursor.style.display="block";
-  cursor.animate([{transform:"translate(0,0)"},{transform:"translate(500px,-80px)"},{transform:"translate(600px,-60px)"}],{duration:2500,easing:"ease-in-out",fill:"forwards"});
-  setTimeout(()=>{
-    cursor.style.display="none";
-    const chosenApp=apps[0];
-    showApp(chosenApp);
-  },2600);
-}
-
-// Show app simulation
-function showApp(app){
+  const app = apps[currentMode];
   show('browser');
   document.getElementById("app-title").innerText=app.title[lang];
   document.getElementById("search-box").innerText="";
   document.getElementById("result").innerText="";
   document.getElementById("education").innerHTML="<strong>Guided Explanation</strong>";
-  typeText(app.search,()=>{
-    document.getElementById("result").innerText=app.result[lang];
-    app.edu[lang].forEach(line=>{
-      const li=document.createElement("div");
-      li.innerText="• "+line;
-      document.getElementById("education").appendChild(li);
-    });
-    playVoice(app);
-    createKeyboard();
-  });
-}
 
-// Typing simulation
-function typeText(text,callback){
-  const box=document.getElementById("search-box");
   let i=0;
   const sound=document.getElementById("typing-sound");
   const interval=setInterval(()=>{
-    box.innerText+=text[i];
-    sound.currentTime=0;
-    sound.play();
+    document.getElementById("search-box").innerText+=app.search[i];
+    sound.currentTime=0; sound.play();
     i++;
-    if(i>=text.length){clearInterval(interval);callback();}
+    if(i>=app.search.length){ clearInterval(interval); showResult(app); }
   },120);
 }
 
-// Voice + subtitles
+function showResult(app){
+  document.getElementById("result").innerText=app.result[lang];
+  app.edu[lang].forEach(line=>{
+    const li=document.createElement("div");
+    li.innerText="• "+line;
+    document.getElementById("education").appendChild(li);
+  });
+  playVoice(app);
+  createKeyboard();
+}
+
 function playVoice(app){
   const text=app.edu[lang].join(". ")+".";
   const subtitles=document.getElementById("subtitles");
@@ -266,7 +274,6 @@ function playVoice(app){
   setTimeout(()=>subtitles.style.display="none",estimatedTime);
 }
 
-// Virtual keyboard
 function createKeyboard(){
   const keys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789,.!?".split('');
   const kb = document.getElementById("keyboard");
