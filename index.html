@@ -149,19 +149,48 @@ button {
   <div class="laptop-top-bar">Baint OS – AIOPs Demo</div>
   <div class="laptop-screen">
 
-<!-- BOOT -->
+<!-- LAPTOP BOOT -->
 <div class="screen active" id="boot">
-  <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;text-align:center">
-    <div class="brand-logo">
-      <img src="logo.png" alt="Baint OS Logo" style="width:90px;height:90px;margin-bottom:16px;">
-    </div>
-    <h2>Baint OS</h2>
-    <p>Powering the Future</p>
-    <div style="width:180px;height:6px;background:#E5E7EB;border-radius:10px;overflow:hidden;margin-top:20px">
-      <span style="display:block;height:100%;width:0;background:#1E90FF;animation:load 3s linear forwards"></span>
-    </div>
+  <div style="background:#111;color:#0f0;font-family:monospace;height:100%;padding:30px;box-sizing:border-box;overflow-y:auto;">
+    <img src="logo.png" alt="Baint OS Logo" style="width:60px;height:60px;margin-bottom:20px;">
+    <div id="boot-log"></div>
   </div>
 </div>
+
+<script>
+const bootMessages = [
+  "Initializing Baint OS...",
+  "Loading AIOPs modules...",
+  "Checking hardware interfaces...",
+  "Starting human-centric automation...",
+  "System ready. Launching desktop..."
+];
+
+const bootLog = document.getElementById("boot-log");
+let index = 0;
+
+function typeBootLine(line, callback) {
+  let i = 0;
+  const interval = setInterval(()=>{
+    bootLog.innerHTML += line[i];
+    i++;
+    if(i >= line.length){ clearInterval(interval); bootLog.innerHTML += "<br>"; callback(); }
+  }, 40);
+}
+
+function nextBootLine() {
+  if(index < bootMessages.length){
+    typeBootLine(bootMessages[index], ()=>{
+      index++;
+      setTimeout(nextBootLine, 200);
+    });
+  } else {
+    show('home'); // go to laptop home screen after boot
+  }
+}
+
+setTimeout(nextBootLine, 500);
+</script>
 
     <!-- HOME -->
     <div class="screen" id="home">
