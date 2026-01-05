@@ -9,7 +9,7 @@
 body {
   margin:0;
   font-family: Arial, sans-serif;
-  background:#222;
+  background:#fff;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -18,36 +18,34 @@ body {
 .laptop {
   width:950px;
   height:650px;
-  background:#333;
+  background:#f3f4f6;
   border-radius:12px;
   padding:20px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  box-shadow:0 20px 60px rgba(0,0,0,0.2);
   display:flex;
   flex-direction:column;
   position:relative;
 }
 .laptop-top-bar {
   height:28px;
-  background:#111;
+  background:#e5e7eb;
   border-radius:8px 8px 0 0;
   display:flex;
   align-items:center;
   padding:0 10px;
-  color:#0f0;
+  color:#111;
   font-size:14px;
-  font-family: monospace;
 }
 .laptop-screen {
   flex:1;
-  background:#000;
+  background:#fff;
   border-radius:0 0 12px 12px;
   margin-top:4px;
   position:relative;
   overflow:hidden;
-  color:#0f0;
-  font-family: monospace;
   display:flex;
   flex-direction:column;
+  color:#111;
 }
 .screen { display:none; flex:1; width:100%; padding:20px; box-sizing:border-box; overflow-y:auto; }
 .screen.active { display:flex; }
@@ -57,31 +55,31 @@ body {
   gap:20px;
   margin-top:30px;
 }
-.app { text-align:center; font-size:12px; cursor:pointer; color:#fff; }
+.app { text-align:center; font-size:12px; cursor:pointer; color:#111; }
 .icon { width:64px; height:64px; border-radius:16px; background:linear-gradient(135deg,#1E90FF,#00BFFF); margin:0 auto 8px; }
-.card { background:#111; border-radius:14px; padding:16px; margin-top:20px; border:1px solid #0f0; color:#0f0; }
+.card { background:#f9fafb; border-radius:14px; padding:16px; margin-top:20px; border:1px solid #e5e7eb; color:#111; }
 button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px; color:white; margin-top:12px; font-size:14px; cursor:pointer; }
 #ai-cursor { width:16px; height:16px; background:#1E90FF; border-radius:50%; position:absolute; top:50%; left:20%; display:none; z-index:10; box-shadow:0 0 12px rgba(30,144,255,0.9); }
-.subtitles { position:absolute; bottom:60px; left:10px; right:10px; background:rgba(0,0,0,0.85); color:#fff; padding:10px; border-radius:8px; font-size:13px; display:none; }
+.subtitles { position:absolute; bottom:60px; left:10px; right:10px; background:rgba(0,0,0,0.75); color:#fff; padding:10px; border-radius:8px; font-size:13px; display:none; }
 .toggle { display:flex; gap:10px; margin-top:10px; }
-.toggle button { background:#111; color:#0f0; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; }
+.toggle button { background:#e5e7eb; color:#111; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; }
 .toggle button.active { background:#1E90FF; color:#fff; }
-.search-box { border:1px solid #0f0; border-radius:8px; padding:10px; font-size:13px; min-height:22px; margin-bottom:12px; color:#0f0; background:#000; }
-.result { background:#111; border-radius:12px; padding:12px; margin-top:12px; font-size:13px; min-height:30px; color:#0f0; }
-.education { margin-top:16px; font-size:13px; color:#0f0; }
+.search-box { border:1px solid #e5e7eb; border-radius:8px; padding:10px; font-size:13px; min-height:22px; margin-bottom:12px; color:#111; background:#fff; }
+.result { background:#f9fafb; border-radius:12px; padding:12px; margin-top:12px; font-size:13px; min-height:30px; color:#111; }
+.education { margin-top:16px; font-size:13px; color:#111; }
 .education strong { display:block; margin-bottom:6px; }
 .keyboard {
-  background:#111;
+  background:#f3f4f6;
   padding:8px;
   display:flex;
   flex-wrap:wrap;
-  border-top:1px solid #0f0;
+  border-top:1px solid #e5e7eb;
   border-radius:0 0 12px 12px;
   margin-top:auto;
 }
 .key {
-  background:#222;
-  color:#0f0;
+  background:#fff;
+  color:#111;
   margin:3px;
   padding:12px 16px;
   border-radius:6px;
@@ -89,8 +87,9 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
   user-select:none;
   text-align:center;
   font-weight:bold;
+  border:1px solid #e5e7eb;
 }
-.key:hover { background:#1E90FF; color:#fff; }
+.key:hover { background:#1E90FF; color:#fff; border-color:#1E90FF; }
 </style>
 </head>
 <body>
@@ -102,15 +101,15 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
     <!-- LAPTOP BOOT -->
     <div class="screen active" id="boot">
       <div>
-        <img src="logo.png" alt="Baint OS Logo" style="width:60px;height:60px;margin-bottom:10px;">
+        <img src="logo.png" alt="Baint OS Logo" style="width:80px;height:80px;margin-bottom:20px;">
         <div id="boot-log"></div>
       </div>
     </div>
 
     <!-- HOME -->
     <div class="screen" id="home">
-      <h3 style="color:#0f0;">Desktop</h3>
-      <p style="font-size:13px;color:#0f0;">Human-centric automation, running on-device</p>
+      <h3>Desktop</h3>
+      <p style="font-size:13px;">Human-centric automation, running on-device</p>
       <div class="icon-grid">
         <div class="app" onclick="show('aiops')"><div class="icon"></div>AIOPs</div>
         <div class="app" onclick="show('browser')"><div class="icon"></div>Browser</div>
@@ -122,7 +121,7 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 
     <!-- AIOPs -->
     <div class="screen" id="aiops">
-      <h3 style="color:#0f0;">Student Assignment Helper</h3>
+      <h3>Student Assignment Helper</h3>
       <div class="toggle">
         <button id="enBtn" class="active" onclick="setLang('en')">English</button>
         <button id="zhBtn" onclick="setLang('zh')">中文</button>
@@ -154,8 +153,6 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 
 <script>
 let lang="en";
-
-// Apps
 const apps=[
   { 
     id:"browser", 
@@ -163,40 +160,24 @@ const apps=[
     search:"Explain photosynthesis for a biology assignment", 
     result:{en:"Photosynthesis is the process by which plants convert sunlight into energy using carbon dioxide and water.", zh:"光合作用是植物利用二氧化碳和水，将阳光转化为能量的过程。"}, 
     edu:{
-      en:[
-        "Student authorized learning assistance",
-        "AIOPs analyzed the question",
-        "Key concepts identified",
-        "Explanation structured step-by-step",
-        "Student remains in control",
-        "Done"
-      ], 
-      zh:[
-        "学生授权学习辅助",
-        "AIOPs 分析问题",
-        "关键概念已识别",
-        "逐步结构化解释",
-        "学生保持控制",
-        "完成"
-      ]
+      en:["Student authorized learning assistance","AIOPs analyzed the question","Key concepts identified","Explanation structured step-by-step","Student remains in control","Done"], 
+      zh:["学生授权学习辅助","AIOPs 分析问题","关键概念已识别","逐步结构化解释","学生保持控制","完成"]
     }
   }
 ];
 
-// Language switch
 function setLang(l){
   lang=l;
   document.getElementById("enBtn").classList.toggle("active",l==="en");
   document.getElementById("zhBtn").classList.toggle("active",l==="zh");
 }
 
-// Show screen
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-// Laptop boot typing effect
+// Laptop boot typing
 const bootMessages = [
   "Initializing Baint OS...",
   "Loading AIOPs modules...",
@@ -231,7 +212,7 @@ function startAI(){
   cursor.animate([{transform:"translate(0,0)"},{transform:"translate(500px,-80px)"},{transform:"translate(600px,-60px)"}],{duration:2500,easing:"ease-in-out",fill:"forwards"});
   setTimeout(()=>{
     cursor.style.display="none";
-    const chosenApp=apps[0]; // only student-assist demo
+    const chosenApp=apps[0];
     showApp(chosenApp);
   },2600);
 }
@@ -244,10 +225,10 @@ function showApp(app){
   document.getElementById("result").innerText="";
   document.getElementById("education").innerHTML="<strong>Guided Explanation</strong>";
   typeText(app.search,()=>{
-    document.getElementById("result").innerHTML=app.result[lang];
+    document.getElementById("result").innerText=app.result[lang];
     app.edu[lang].forEach(line=>{
       const li=document.createElement("div");
-      li.innerHTML="• "+line;
+      li.innerText="• "+line;
       document.getElementById("education").appendChild(li);
     });
     playVoice(app);
