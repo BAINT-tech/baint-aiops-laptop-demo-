@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Baint OS – AIOPs Laptop Demo</title>
+<title>Baint OS – Laptop AIOPs Demo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
@@ -16,8 +16,8 @@ body {
   height:100vh;
 }
 .laptop {
-  width:900px;
-  height:600px;
+  width:950px;
+  height:650px;
   background:#333;
   border-radius:12px;
   padding:20px;
@@ -46,9 +46,11 @@ body {
   overflow:hidden;
   color:#0f0;
   font-family: monospace;
+  display:flex;
+  flex-direction:column;
 }
-.screen { display:none; height:100%; width:100%; padding:20px; box-sizing:border-box; overflow-y:auto; }
-.screen.active { display:block; }
+.screen { display:none; flex:1; width:100%; padding:20px; box-sizing:border-box; overflow-y:auto; }
+.screen.active { display:flex; }
 .icon-grid {
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -60,7 +62,7 @@ body {
 .card { background:#111; border-radius:14px; padding:16px; margin-top:20px; border:1px solid #0f0; color:#0f0; }
 button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px; color:white; margin-top:12px; font-size:14px; cursor:pointer; }
 #ai-cursor { width:16px; height:16px; background:#1E90FF; border-radius:50%; position:absolute; top:50%; left:20%; display:none; z-index:10; box-shadow:0 0 12px rgba(30,144,255,0.9); }
-.subtitles { position:absolute; bottom:10px; left:10px; right:10px; background:rgba(0,0,0,0.85); color:#fff; padding:10px; border-radius:8px; font-size:13px; display:none; }
+.subtitles { position:absolute; bottom:60px; left:10px; right:10px; background:rgba(0,0,0,0.85); color:#fff; padding:10px; border-radius:8px; font-size:13px; display:none; }
 .toggle { display:flex; gap:10px; margin-top:10px; }
 .toggle button { background:#111; color:#0f0; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; }
 .toggle button.active { background:#1E90FF; color:#fff; }
@@ -68,10 +70,31 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 .result { background:#111; border-radius:12px; padding:12px; margin-top:12px; font-size:13px; min-height:30px; color:#0f0; }
 .education { margin-top:16px; font-size:13px; color:#0f0; }
 .education strong { display:block; margin-bottom:6px; }
+.keyboard {
+  background:#111;
+  padding:8px;
+  display:flex;
+  flex-wrap:wrap;
+  border-top:1px solid #0f0;
+  border-radius:0 0 12px 12px;
+  margin-top:auto;
+}
+.key {
+  background:#222;
+  color:#0f0;
+  margin:3px;
+  padding:12px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  user-select:none;
+  text-align:center;
+  font-weight:bold;
+}
+.key:hover { background:#1E90FF; color:#fff; }
 </style>
 </head>
-
 <body>
+
 <div class="laptop">
   <div class="laptop-top-bar">Baint OS – AIOPs Demo</div>
   <div class="laptop-screen">
@@ -99,25 +122,26 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 
     <!-- AIOPs -->
     <div class="screen" id="aiops">
-      <h3 style="color:#0f0;">AIOPs Brain Engine</h3>
+      <h3 style="color:#0f0;">Student Assignment Helper</h3>
       <div class="toggle">
         <button id="enBtn" class="active" onclick="setLang('en')">English</button>
         <button id="zhBtn" onclick="setLang('zh')">中文</button>
       </div>
       <div class="card">
-        <strong>Authorized Task Automation</strong>
-        <p>AI can assist students in writing assignments, summarizing notes, and performing tasks directly on-device.</p>
-        <button onclick="startAI()">Authorize Task</button>
+        <strong>Assignment Assistant</strong>
+        <p>AI helps students generate guided explanations step-by-step, keeping them in control.</p>
+        <button onclick="startAI()">Start Assignment</button>
       </div>
       <button onclick="show('home')">Back</button>
     </div>
 
     <!-- MOCK APP -->
     <div class="screen" id="browser">
-      <div class="window-title" id="app-title">On-Device Browser</div>
+      <div class="window-title" id="app-title">Student Assignment Demo</div>
       <div class="search-box" id="search-box"></div>
       <div class="result" id="result"></div>
       <div class="education" id="education"></div>
+      <div class="keyboard" id="keyboard"></div>
       <button onclick="show('home')">Done</button>
     </div>
 
@@ -133,10 +157,30 @@ let lang="en";
 
 // Apps
 const apps=[
-  { id:"browser", title:{en:"On-Device Browser", zh:"设备浏览器"}, search:"Help student write a summary", result:{en:"AI generated a draft summary.", zh:"AI 生成了草稿总结。"}, edu:{en:["Task authorized","AIOPs opened browser","Student draft created","No cloud used"], zh:["任务已授权","AIOPs 打开浏览器","生成学生草稿","无云端使用"]}},
-  { id:"whatsapp", title:{en:"WhatsApp Interface", zh:"WhatsApp 界面"}, search:"Send message to Alex", result:{en:"AI typed and sent a message.", zh:"AI 已输入并发送消息。"}, edu:{en:["Task authorized","AIOPs opened WhatsApp","Typed and sent a message","No cloud used"], zh:["任务已授权","AIOPs 打开 WhatsApp","输入并发送消息","无云端使用"]}},
-  { id:"x", title:{en:"X Interface", zh:"X 界面"}, search:"Post a quick update", result:{en:"AI posted successfully.", zh:"AI 已成功发布。"}, edu:{en:["Task authorized","AIOPs opened X","Posted update","No cloud used"], zh:["任务已授权","AIOPs 打开 X","发布更新","无云端使用"]}},
-  { id:"spotify", title:{en:"Spotify Interface", zh:"Spotify 界面"}, search:"Play my playlist", result:{en:"AI started playing music.", zh:"AI 开始播放音乐。"}, edu:{en:["Task authorized","AIOPs opened Spotify","Playing playlist","No cloud used"], zh:["任务已授权","AIOPs 打开 Spotify","播放播放列表","无云端使用"]}}
+  { 
+    id:"browser", 
+    title:{en:"Student Assignment Helper", zh:"学生作业助手"}, 
+    search:"Explain photosynthesis for a biology assignment", 
+    result:{en:"Photosynthesis is the process by which plants convert sunlight into energy using carbon dioxide and water.", zh:"光合作用是植物利用二氧化碳和水，将阳光转化为能量的过程。"}, 
+    edu:{
+      en:[
+        "Student authorized learning assistance",
+        "AIOPs analyzed the question",
+        "Key concepts identified",
+        "Explanation structured step-by-step",
+        "Student remains in control",
+        "Done"
+      ], 
+      zh:[
+        "学生授权学习辅助",
+        "AIOPs 分析问题",
+        "关键概念已识别",
+        "逐步结构化解释",
+        "学生保持控制",
+        "完成"
+      ]
+    }
+  }
 ];
 
 // Language switch
@@ -162,7 +206,6 @@ const bootMessages = [
 ];
 const bootLog = document.getElementById("boot-log");
 let index = 0;
-
 function typeBootLine(line, callback){
   let i=0;
   const interval=setInterval(()=>{
@@ -171,49 +214,48 @@ function typeBootLine(line, callback){
     if(i>=line.length){ clearInterval(interval); bootLog.innerHTML += "<br>"; callback(); }
   },40);
 }
-
 function nextBootLine(){
   if(index<bootMessages.length){
     typeBootLine(bootMessages[index],()=>{
       index++;
       setTimeout(nextBootLine,200);
     });
-  } else {
-    show('home');
-  }
+  } else { show('home'); }
 }
-
 setTimeout(nextBootLine,500);
 
 // AIOPs simulation
 function startAI(){
   const cursor=document.getElementById("ai-cursor");
   cursor.style.display="block";
-  cursor.animate([{transform:"translate(0,0)"},{transform:"translate(400px,-80px)"},{transform:"translate(500px,-60px)"}],{duration:2500,easing:"ease-in-out",fill:"forwards"});
+  cursor.animate([{transform:"translate(0,0)"},{transform:"translate(500px,-80px)"},{transform:"translate(600px,-60px)"}],{duration:2500,easing:"ease-in-out",fill:"forwards"});
   setTimeout(()=>{
     cursor.style.display="none";
-    const chosenApp=apps[Math.floor(Math.random()*apps.length)];
+    const chosenApp=apps[0]; // only student-assist demo
     showApp(chosenApp);
   },2600);
 }
 
+// Show app simulation
 function showApp(app){
   show('browser');
   document.getElementById("app-title").innerText=app.title[lang];
   document.getElementById("search-box").innerText="";
   document.getElementById("result").innerText="";
-  document.getElementById("education").innerHTML="<strong>What just happened?</strong>";
+  document.getElementById("education").innerHTML="<strong>Guided Explanation</strong>";
   typeText(app.search,()=>{
-    document.getElementById("result").innerHTML=`<strong>Result Found</strong><br>${app.result[lang]}`;
+    document.getElementById("result").innerHTML=app.result[lang];
     app.edu[lang].forEach(line=>{
       const li=document.createElement("div");
       li.innerHTML="• "+line;
       document.getElementById("education").appendChild(li);
     });
     playVoice(app);
+    createKeyboard();
   });
 }
 
+// Typing simulation
 function typeText(text,callback){
   const box=document.getElementById("search-box");
   let i=0;
@@ -227,6 +269,7 @@ function typeText(text,callback){
   },120);
 }
 
+// Voice + subtitles
 function playVoice(app){
   const text=app.edu[lang].join(". ")+".";
   const subtitles=document.getElementById("subtitles");
@@ -240,6 +283,20 @@ function playVoice(app){
   }
   const estimatedTime=Math.max(text.length*80,5000);
   setTimeout(()=>subtitles.style.display="none",estimatedTime);
+}
+
+// Virtual keyboard
+function createKeyboard(){
+  const keys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789,.!?".split('');
+  const kb = document.getElementById("keyboard");
+  kb.innerHTML="";
+  keys.forEach(k=>{
+    const key = document.createElement("div");
+    key.className="key";
+    key.innerText=k;
+    key.onclick=()=>document.getElementById("search-box").innerText+=k;
+    kb.appendChild(key);
+  });
 }
 </script>
 </body>
