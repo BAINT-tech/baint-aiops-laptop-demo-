@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Baint OS – Laptop AIOPs & Student Assist</title>
+<title>Baint OS – Laptop OS Style</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
@@ -26,51 +26,42 @@ body {
   flex-direction:column;
   position:relative;
 }
-.laptop-top-bar {
-  height:28px;
-  background:#222;
-  border-radius:12px 12px 0 0;
-  display:flex;
-  align-items:center;
-  padding:0 10px;
-  color:#fff;
-  font-size:14px;
-}
 .laptop-screen {
   flex:1;
-  background:#fff;
-  border-radius:0 0 20px 20px;
+  background:rgba(255,255,255,0.95);
+  border-radius:20px;
   margin-top:4px;
   position:relative;
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  color:#111;
+  padding:20px;
+  box-sizing:border-box;
 }
 .screen { display:none; flex:1; width:100%; padding:20px; box-sizing:border-box; overflow-y:auto; }
 .screen.active { display:flex; }
 .icon-grid {
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:20px;
-  margin-top:30px;
+  gap:40px;
+  margin-top:40px;
 }
-.app { text-align:center; font-size:12px; cursor:pointer; color:#111; }
-.icon { width:64px; height:64px; border-radius:16px; background:linear-gradient(135deg,#1E90FF,#00BFFF); margin:0 auto 8px; }
-.card { background:#f9fafb; border-radius:14px; padding:16px; margin-top:20px; border:1px solid #e5e7eb; color:#111; }
-button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px; color:white; margin-top:12px; font-size:14px; cursor:pointer; }
+.app { text-align:center; font-size:14px; cursor:pointer; color:#111; }
+.icon { width:80px; height:80px; border-radius:20px; background:linear-gradient(135deg,#1E90FF,#00BFFF); margin:0 auto 12px; }
+.card { background:#f9fafb; border-radius:16px; padding:24px; margin-top:30px; border:1px solid #e5e7eb; color:#111; font-size:14px; }
+button { background:#1E90FF; border:none; padding:14px 28px; border-radius:12px; color:white; margin-top:16px; font-size:14px; cursor:pointer; }
 #ai-cursor { width:16px; height:16px; background:#1E90FF; border-radius:50%; position:absolute; top:50%; left:20%; display:none; z-index:10; box-shadow:0 0 12px rgba(30,144,255,0.9); }
-.subtitles { position:absolute; bottom:60px; left:10px; right:10px; background:rgba(0,0,0,0.75); color:#fff; padding:10px; border-radius:8px; font-size:13px; display:none; }
-.toggle { display:flex; gap:10px; margin-top:10px; }
-.toggle button { background:#e5e7eb; color:#111; border:none; padding:6px 12px; border-radius:8px; cursor:pointer; }
+.subtitles { position:absolute; bottom:70px; left:20px; right:20px; background:rgba(0,0,0,0.75); color:#fff; padding:12px; border-radius:8px; font-size:14px; display:none; }
+.toggle { display:flex; gap:20px; margin-top:20px; }
+.toggle button { background:#e5e7eb; color:#111; border:none; padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:bold; }
 .toggle button.active { background:#1E90FF; color:#fff; }
-.search-box { border:1px solid #e5e7eb; border-radius:8px; padding:10px; font-size:13px; min-height:22px; margin-bottom:12px; color:#111; background:#fff; }
-.result { background:#f9fafb; border-radius:12px; padding:12px; margin-top:12px; font-size:13px; min-height:30px; color:#111; }
-.education { margin-top:16px; font-size:13px; color:#111; }
-.education strong { display:block; margin-bottom:6px; }
+.search-box { border:1px solid #e5e7eb; border-radius:12px; padding:12px; font-size:14px; min-height:28px; margin-bottom:16px; color:#111; background:#fff; }
+.result { background:#f9fafb; border-radius:14px; padding:14px; margin-top:16px; font-size:14px; min-height:40px; color:#111; }
+.education { margin-top:20px; font-size:14px; color:#111; line-height:1.6; }
+.education strong { display:block; margin-bottom:10px; }
 .keyboard {
   background:#f3f4f6;
-  padding:8px;
+  padding:12px;
   display:flex;
   flex-wrap:wrap;
   border-top:1px solid #e5e7eb;
@@ -80,9 +71,9 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 .key {
   background:#fff;
   color:#111;
-  margin:3px;
-  padding:12px 16px;
-  border-radius:6px;
+  margin:4px;
+  padding:14px 18px;
+  border-radius:8px;
   cursor:pointer;
   user-select:none;
   text-align:center;
@@ -95,21 +86,20 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
 <body>
 
 <div class="laptop">
-  <div class="laptop-top-bar">Baint OS – AIOPs / Student Assist</div>
   <div class="laptop-screen">
 
     <!-- LAPTOP BOOT -->
     <div class="screen active" id="boot">
       <div style="text-align:center;margin-top:50px;">
-        <img src="logo.png" alt="Baint OS Logo" style="width:80px;height:80px;margin-bottom:20px;">
-        <div id="boot-log"></div>
+        <img src="logo.png" alt="Baint OS Logo" style="width:100px;height:100px;margin-bottom:30px;">
+        <div id="boot-log" style="font-family:monospace;color:#0f0;"></div>
       </div>
     </div>
 
     <!-- HOME -->
     <div class="screen" id="home">
-      <h3>Desktop</h3>
-      <p style="font-size:13px;">Select Mode:</p>
+      <h2 style="margin-bottom:10px;">Welcome to Baint OS</h2>
+      <p style="font-size:14px;">Select Mode:</p>
       <div class="toggle">
         <button id="demoBtn" class="active" onclick="switchMode('aiops')">AIOPs Demo</button>
         <button id="studentBtn" onclick="switchMode('student')">Student Assist</button>
@@ -124,7 +114,7 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
       <h3>AIOPs Brain Engine</h3>
       <div class="card">
         <strong>Authorized Task Automation</strong>
-        <p>AI interacts with your apps for authorized tasks.</p>
+        <p>AI can assist in tasks directly on-device.</p>
         <button onclick="startAI()">Authorize Task</button>
       </div>
       <button onclick="show('home')">Back</button>
@@ -148,7 +138,7 @@ button { background:#1E90FF; border:none; padding:12px 24px; border-radius:10px;
       <div class="result" id="result"></div>
       <div class="education" id="education"></div>
       <div class="keyboard" id="keyboard"></div>
-      <button onclick="show('home')">Done</button>
+      <button style="margin-top:20px;" onclick="show('home')">Done</button>
     </div>
 
     <div id="ai-cursor"></div>
@@ -183,10 +173,11 @@ const apps={
   }
 };
 
-function setLang(l){
-  lang=l;
-  document.getElementById("enBtn")?.classList.toggle("active",l==="en");
-  document.getElementById("zhBtn")?.classList.toggle("active",l==="zh");
+function switchMode(mode){
+  currentMode=mode;
+  document.getElementById("demoBtn").classList.toggle("active",mode==="aiops");
+  document.getElementById("studentBtn").classList.toggle("active",mode==="student");
+  document.getElementById("openLabel").innerText="Open "+apps[mode].title[lang];
 }
 
 function show(id){
@@ -194,29 +185,21 @@ function show(id){
   document.getElementById(id).classList.add('active');
 }
 
-function switchMode(mode){
-  currentMode=mode;
-  document.getElementById("demoBtn").classList.toggle("active",mode==="aiops");
-  document.getElementById("studentBtn").classList.toggle("active",mode==="student");
-  // Update home Open button label dynamically
-  document.getElementById("openLabel").innerText = "Open " + apps[mode].title[lang];
-}
-
-const bootMessages = [
+const bootMessages=[
   "Initializing Baint OS...",
   "Loading AIOPs modules...",
   "Checking hardware interfaces...",
   "Starting human-centric automation...",
-  "System ready. Launching desktop..."
+  "System ready. Launching OS..."
 ];
-const bootLog = document.getElementById("boot-log");
-let index = 0;
-function typeBootLine(line, callback){
+const bootLog=document.getElementById("boot-log");
+let index=0;
+function typeBootLine(line,callback){
   let i=0;
   const interval=setInterval(()=>{
-    bootLog.innerHTML += line[i];
+    bootLog.innerHTML+=line[i];
     i++;
-    if(i>=line.length){ clearInterval(interval); bootLog.innerHTML += "<br>"; callback(); }
+    if(i>=line.length){ clearInterval(interval); bootLog.innerHTML+="<br>"; callback(); }
   },40);
 }
 function nextBootLine(){
@@ -276,10 +259,10 @@ function playVoice(app){
 
 function createKeyboard(){
   const keys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789,.!?".split('');
-  const kb = document.getElementById("keyboard");
+  const kb=document.getElementById("keyboard");
   kb.innerHTML="";
   keys.forEach(k=>{
-    const key = document.createElement("div");
+    const key=document.createElement("div");
     key.className="key";
     key.innerText=k;
     key.onclick=()=>document.getElementById("search-box").innerText+=k;
@@ -287,5 +270,6 @@ function createKeyboard(){
   });
 }
 </script>
+
 </body>
 </html>
